@@ -8,7 +8,7 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform toFollow;
     
-    readonly Vector3 offset = new Vector3(0, 0, -10);
+    readonly Vector3 offset = new Vector3(0, 0, -42);
 
     // Start is called before the first frame update
     void Start()
