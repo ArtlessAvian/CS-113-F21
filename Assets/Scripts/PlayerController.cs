@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     // logic
     bool queueShove = false;
     bool queueShoot = false;
+    public readonly float shotPeriod = 1f; // seconds
+    float shotCooldown = 0;
 
     // visuals
     public GameObject tracerPrefab;
@@ -43,25 +45,36 @@ public class PlayerController : MonoBehaviour
             tracer.hit = hit;
             tracer.ray = ray;
         }
+
+        if (shotCooldown > 0)
+        {
+            shotCooldown -= Time.fixedDeltaTime;
+        }
     }
 
     void Update()
     {
+        // Controls stuff
+
         if (Input.GetMouseButtonDown(0))
         {
             if (Input.GetMouseButton(1))
             {
-                Debug.Log("BLAM");
-                queueShoot = true;
-                queueShove = false;
+                if (shotCooldown <= 0)
+                {
+                    shotCooldown = shotPeriod;
+                    queueShoot = true;
+                    queueShove = false;
+                }
             }
             else
             {
-                Debug.Log("Shove");
                 queueShove = true;
                 queueShoot = false;
             }
         }
+
+        // Visual stuff
 
         // Get cursor's offset from player
         Vector2 cursorRelative = GetCursorOffset();
@@ -71,6 +84,9 @@ public class PlayerController : MonoBehaviour
         // TODO: Tends to wobble while moving.
         Transform sprite = transform.Find("Sprite");
         sprite.eulerAngles = new Vector3(0, 0, angle);
+
+        transform.Find("CooldownBar").gameObject.SetActive(shotCooldown > 0); // Only show if reloading.
+        transform.Find("CooldownBar/Progress").localScale = new Vector3(1 - shotCooldown / shotPeriod, 1, 1);
     }
 
     Vector2 GetCursorOffset()
