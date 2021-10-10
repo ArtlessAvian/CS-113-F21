@@ -10,8 +10,12 @@ public class PlayerController : MonoBehaviour
     // logic
     bool queueShove = false;
     bool queueShoot = false;
+
     public readonly float shotPeriod = 1f; // seconds
     float shotCooldown = 0;
+
+    //public readonly int maxShots = 6; // balance.
+    //public int ammoCount = 6;
 
     // visuals
     public GameObject tracerPrefab;
@@ -39,7 +43,11 @@ public class PlayerController : MonoBehaviour
             Vector2 origin = (Vector2)transform.position + GetCursorOffset().normalized * 0.1f; // woo magic numbers
             Ray2D ray = new Ray2D(origin, GetCursorOffset());
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-            
+
+            // Notify the thing that it got hit.
+            hit.collider?.gameObject.GetComponent<ShotResponse>()?.OnGetShot();
+
+            // Create a visual representation.            
             GameObject instance = Instantiate(tracerPrefab, transform.position, transform.rotation);
             TracerVisuals tracer = instance.GetComponent<TracerVisuals>();
             tracer.hit = hit;
