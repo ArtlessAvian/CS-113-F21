@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
             // Notify the thing that it got hit.
-            hit.collider?.gameObject.GetComponent<ShotResponse>()?.OnGetShot();
+            hit.collider?.gameObject.GetComponent<ShotResponse>()?.OnGetShot.Invoke(hit.point, ray.direction.normalized);
 
             // Create a visual representation.            
             GameObject instance = Instantiate(tracerPrefab, transform.position, transform.rotation);

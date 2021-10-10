@@ -11,6 +11,8 @@ public class ZombieController : MonoBehaviour
     public GameObject chaseAfter;
     private Vector2 lastSeenAt;
 
+    //private static 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +51,8 @@ public class ZombieController : MonoBehaviour
     {
         // Update the last seen position, if in sight.
         Vector2 direction = chaseAfter.transform.position - transform.position;
-        RaycastHit2D hit = Physics2D.CircleCast((Vector2)transform.position + direction.normalized * 0.2f, 0.1f, direction);
+        RaycastHit2D hit = Physics2D.CircleCast((Vector2)transform.position + direction.normalized * 0.15f, 0.05f, direction);
+        
         if (hit.collider.gameObject == chaseAfter)
         {
             // hack to copy the position by value. otherwise, it gets the reference and tracks player through walls.

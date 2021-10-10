@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShotResponse : MonoBehaviour
-{
-    public void OnGetShot()
-    {
-        Debug.Log("Ouch");
-    }
+{    
+    [SerializeField]
+    public UnityEvent<Vector2, Vector2> OnGetShot;
 }
