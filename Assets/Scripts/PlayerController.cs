@@ -66,20 +66,20 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButton(1))
+            //if (Input.GetMouseButton(1))
+            //{
+            if (shotCooldown <= 0)
             {
-                if (shotCooldown <= 0)
-                {
-                    shotCooldown = shotPeriod;
-                    queueShoot = true;
-                    queueShove = false;
-                }
+                shotCooldown = shotPeriod;
+                queueShoot = true;
+                queueShove = false;
             }
-            else
-            {
-                queueShove = true;
-                queueShoot = false;
-            }
+            //}
+            //else
+            //{
+            //    queueShove = true;
+            //    queueShoot = false;
+            //}
         }
 
         // Visual stuff
