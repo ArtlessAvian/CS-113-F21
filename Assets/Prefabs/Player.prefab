@@ -130,6 +130,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52db5ac7b6d008f47b3ebae6c00301c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ammoCount: 0
+  stamina: 1
+  walkSpeed: 1
+  runSpeed: 2
+  runStaminaDrain: 1
+  runStaminaRecover: 0.05
   tracerPrefab: {fileID: 159853322695533418, guid: 8329a160cbddc1f4294de2f5a02d4420, type: 3}
 --- !u!50 &9116270527956335858
 Rigidbody2D:

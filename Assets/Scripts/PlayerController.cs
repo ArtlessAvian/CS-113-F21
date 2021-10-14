@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour
     public readonly int maxShots = 6; // balance.
     public int ammoCount;
 
+    public float stamina = 1;
+    public float walkSpeed = 1; // units per second
+    public float runSpeed = 1.2f; // units per second
+    public float runStaminaDrain = 1f; // per second
+    public float runStaminaRecover = 0.05f; // per second
+
     // visuals
     public GameObject tracerPrefab;
 
@@ -37,6 +43,21 @@ public class PlayerController : MonoBehaviour
         // Adjust current velocity towards input direction.
         // Setting rb.velocity = targetVel is fine? Bad if something pushes it externally.
         Vector2 targetVel = input;
+
+        if (Input.GetAxisRaw("Run") > 0 && stamina > 0)
+        {
+            targetVel *= runSpeed;
+            stamina = Mathf.Max(0, stamina - runStaminaDrain * Time.fixedDeltaTime);
+        }
+        else
+        {
+            targetVel *= walkSpeed;
+            if (Input.GetAxisRaw("Run") == 0)
+            {
+                stamina = Mathf.Min(1, stamina + runStaminaRecover * Time.fixedDeltaTime);
+            }
+        }
+
         rb.velocity = Vector2.MoveTowards(rb.velocity, targetVel, 0.25f);
 
         if (queueShoot)
