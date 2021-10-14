@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour
     public readonly float shotPeriod = 1f; // seconds
     float shotCooldown = 0;
 
-    //public readonly int maxShots = 6; // balance.
-    //public int ammoCount = 6;
+    public readonly int maxShots = 6; // balance.
+    public int ammoCount;
 
     // visuals
     public GameObject tracerPrefab;
@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        ammoCount = maxShots;
     }
 
     void FixedUpdate()
@@ -40,24 +42,39 @@ public class PlayerController : MonoBehaviour
         if (queueShoot)
         {
             queueShoot = false;
-            Vector2 origin = (Vector2)transform.position + GetCursorOffset().normalized * 0.1f; // woo magic numbers
-            Ray2D ray = new Ray2D(origin, GetCursorOffset());
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
-            // Notify the thing that it got hit.
-            hit.collider?.gameObject.GetComponent<ShotResponse>()?.OnGetShot.Invoke(hit.point, ray.direction.normalized);
-
-            // Create a visual representation.            
-            GameObject instance = Instantiate(tracerPrefab, transform.position, transform.rotation);
-            TracerVisuals tracer = instance.GetComponent<TracerVisuals>();
-            tracer.hit = hit;
-            tracer.ray = ray;
+            if (ammoCount > 0)
+            {
+                ammoCount--;
+                Shoot();
+            }
+            else
+            {
+                print("Click!");
+            }
         }
 
         if (shotCooldown > 0)
         {
             shotCooldown -= Time.fixedDeltaTime;
         }
+    }
+
+    private void Shoot()
+    {
+        shotCooldown = shotPeriod;
+        Vector2 origin = (Vector2)transform.position + GetCursorOffset().normalized * 0.1f; // woo magic numbers
+        Ray2D ray = new Ray2D(origin, GetCursorOffset());
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+        // Notify the thing that it got hit.
+        hit.collider?.gameObject.GetComponent<ShotResponse>()?.OnGetShot.Invoke(hit.point, ray.direction.normalized);
+
+        // Create a visual representation.            
+        GameObject instance = Instantiate(tracerPrefab, transform.position, transform.rotation);
+        TracerVisuals tracer = instance.GetComponent<TracerVisuals>();
+        tracer.hit = hit;
+        tracer.ray = ray;
     }
 
     void Update()
@@ -70,7 +87,6 @@ public class PlayerController : MonoBehaviour
             //{
             if (shotCooldown <= 0)
             {
-                shotCooldown = shotPeriod;
                 queueShoot = true;
                 queueShove = false;
             }
