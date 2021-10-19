@@ -8,6 +8,8 @@ public class ZombieController : MonoBehaviour
     Rigidbody2D rb;
 
     // logic
+    public float visionRadius = 1; // unity units
+
     public GameObject chaseAfter;
     private Vector2 lastSeenAt;
 
@@ -51,9 +53,9 @@ public class ZombieController : MonoBehaviour
     {
         // Update the last seen position, if in sight.
         Vector2 direction = chaseAfter.transform.position - transform.position;
-        RaycastHit2D hit = Physics2D.CircleCast((Vector2)transform.position + direction.normalized * 0.15f, 0.05f, direction);
+        RaycastHit2D hit = Physics2D.CircleCast((Vector2)transform.position + direction.normalized * 0.15f, 0.05f, direction, visionRadius);
         
-        if (hit.collider.gameObject == chaseAfter)
+        if ((hit.collider is object) && hit.collider.gameObject == chaseAfter)
         {
             // hack to copy the position by value. otherwise, it gets the reference and tracks player through walls.
             lastSeenAt = new Vector2(chaseAfter.transform.position.x, chaseAfter.transform.position.y);
