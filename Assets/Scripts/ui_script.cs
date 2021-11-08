@@ -7,6 +7,7 @@ public class ui_script : MonoBehaviour
 {
     Transform stamina;
     Transform bulletCount;
+    Transform healthCount;
     PlayerController pc;
 
     public Sprite[] numbers;
@@ -16,6 +17,7 @@ public class ui_script : MonoBehaviour
     {
         stamina = transform.GetChild(0);
         bulletCount = transform.GetChild(1);
+        healthCount = transform.GetChild(2);
         pc = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
@@ -25,6 +27,9 @@ public class ui_script : MonoBehaviour
         stamina.GetChild(1).GetComponent<Image>().fillAmount = pc.stamina;
 
         bulletCount.GetChild(0).GetComponent<Image>().sprite = numbers[pc.ammoCount];
-        
+
+        healthCount.GetChild(0).gameObject.SetActive(pc.health > 0);
+        healthCount.GetChild(1).gameObject.SetActive(pc.health > 1);
+        healthCount.GetChild(2).gameObject.SetActive(pc.health > 2);
     }
 }

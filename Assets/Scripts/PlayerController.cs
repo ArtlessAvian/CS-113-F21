@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
     public float runStaminaDrain = 1f; // per second
     public float runStaminaRecover = 0.05f; // per second
 
+    public int health = 3;
+
     // visuals
     public GameObject tracerPrefab;
 
