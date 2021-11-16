@@ -425,25 +425,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7479312302374901288, guid: 9797c0ffa8a33434abca15d989b142af, type: 3}
-      propertyPath: m_AssetsPPU
-      value: 100
+    - target: {fileID: 7479312302374901287, guid: 9797c0ffa8a33434abca15d989b142af, type: 3}
+      propertyPath: orthographic size
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 7479312302374901288, guid: 9797c0ffa8a33434abca15d989b142af, type: 3}
-      propertyPath: m_UpscaleRT
+      propertyPath: m_Enabled
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7479312302374901288, guid: 9797c0ffa8a33434abca15d989b142af, type: 3}
-      propertyPath: m_StretchFill
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7479312302374901288, guid: 9797c0ffa8a33434abca15d989b142af, type: 3}
-      propertyPath: m_RefResolutionX
-      value: 480
-      objectReference: {fileID: 0}
-    - target: {fileID: 7479312302374901288, guid: 9797c0ffa8a33434abca15d989b142af, type: 3}
-      propertyPath: m_RefResolutionY
-      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 7479312302374901289, guid: 9797c0ffa8a33434abca15d989b142af, type: 3}
       propertyPath: toFollow
@@ -636,6 +624,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 867636205428183183, guid: 5e8fc984cccc4d74a93cf01b52971d5c, type: 3}
+      propertyPath: zombieRange
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4091048882298114186, guid: 5e8fc984cccc4d74a93cf01b52971d5c, type: 3}
       propertyPath: m_LocalScale.y
       value: 1
