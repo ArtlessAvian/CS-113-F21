@@ -129,8 +129,9 @@ public class PlayerController : MonoBehaviour
         float angle = Vector2.Angle(cursorRelative, Vector2.right) * (cursorRelative.y < 0 ? -1 : 1);
         // Rotate the player's visuals to face the cursor.
         // TODO: Tends to wobble while moving.
-        Transform sprite = transform.Find("Sprite");
+        Transform sprite = transform.Find("GunOffset");
         sprite.eulerAngles = new Vector3(0, 0, angle);
+        sprite.localScale = new Vector3(1, cursorRelative.x < 0 ? -1 : 1, 1);
 
         transform.Find("CooldownBar").gameObject.SetActive(shotCooldown > 0); // Only show if reloading.
         transform.Find("CooldownBar/Progress").localScale = new Vector3(1 - shotCooldown / shotPeriod, 1, 1);
