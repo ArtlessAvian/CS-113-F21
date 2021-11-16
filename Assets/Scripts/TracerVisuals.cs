@@ -26,15 +26,14 @@ public class TracerVisuals : MonoBehaviour
             tracer.localScale = new Vector3(hit.distance - gunOffset, 0.02f, 1);
 
             tracer.position = (ray.origin + hit.point) / 2f;
-
-            Vector3 offsetDir = (hit.point - ray.origin).normalized;
-            tracer.position += offsetDir.normalized * gunOffset / 2f;
+            Vector3 offset = ray.direction.normalized * gunOffset / 2f;
+            tracer.position += offset;
         }
         else
         {
             // draw a 100 unit long rectangle, centered 50 units away.
             tracer.localScale = new Vector3(100, 0.02f, 1);
-            tracer.position = (ray.origin + ray.origin + ray.direction.normalized * 100) / 2f;
+            tracer.position = (ray.origin + ray.origin + ray.direction.normalized * (100 + gunOffset)) / 2f;
         }
     }
 
