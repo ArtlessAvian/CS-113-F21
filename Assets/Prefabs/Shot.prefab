@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3873dc2ecc9eb4e8ce951899b0727e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunOffset: 0.25
   localTime: 0
 --- !u!82 &5529579998125201952
 AudioSource:

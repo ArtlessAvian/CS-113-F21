@@ -9,6 +9,9 @@ public class ZombieController : MonoBehaviour
 
     // logic
     public float visionRadius = 1; // unity units
+    public float wanderRadius = 0;
+
+    public const float moveSpeed = 0.5f; 
 
     public GameObject chaseAfter;
     private Vector2 lastSeenAt;
@@ -29,14 +32,28 @@ public class ZombieController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 chaseDirection = GetChaseVector();
+        Vector2 targetVel;
 
-        Vector2 targetVel = chaseDirection.normalized * 0.5f;
+        Vector2 chaseDirection = GetChaseVector();
+        targetVel = chaseDirection.normalized * moveSpeed;
 
         // if close enough, stop. (otherwise it oscillates over the point.)
-        if (chaseDirection.sqrMagnitude <= 0.01)
+        if (chaseDirection.sqrMagnitude <= wanderRadius * wanderRadius)
         {
-            targetVel = Vector2.zero;
+            if (wanderRadius < 0.1)
+            {
+                targetVel = Vector2.zero;
+            }
+            else // wander radius is large.
+            {
+                if (!SeesTarget())
+                {
+                    // sample disk
+                    
+
+                    targetVel = (rb.velocity + new Vector2(Random.value - 0.5f, Random.value - 0.5f) * 0.3f).normalized * moveSpeed;
+                }
+            }
         }
 
         rb.velocity = Vector2.MoveTowards(rb.velocity, targetVel, 0.25f);
@@ -45,17 +62,26 @@ public class ZombieController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.Find("debug home").position = lastSeenAt;
+        transform.Find("debug home").localScale = Vector2.one * wanderRadius * 2;
+        transform.Find("debug vision").localScale = Vector2.one * visionRadius * 2;
+    }
+
+    bool SeesTarget()
+    {
+        Vector2 direction = chaseAfter.transform.position - transform.position;
+        if (direction.magnitude > visionRadius) { return false; }
         
+        RaycastHit2D hit = Physics2D.CircleCast((Vector2)transform.position + direction.normalized * 0.15f, 0.05f, direction, visionRadius);
+
+        return (hit.collider is object) && (hit.collider.gameObject == chaseAfter);
     }
 
     // Returns the direction of the target if seen, otherwise where it was last.
     Vector2 GetChaseVector()
     {
         // Update the last seen position, if in sight.
-        Vector2 direction = chaseAfter.transform.position - transform.position;
-        RaycastHit2D hit = Physics2D.CircleCast((Vector2)transform.position + direction.normalized * 0.15f, 0.05f, direction, visionRadius);
-        
-        if ((hit.collider is object) && hit.collider.gameObject == chaseAfter)
+        if (SeesTarget())
         {
             // hack to copy the position by value. otherwise, it gets the reference and tracks player through walls.
             lastSeenAt = new Vector2(chaseAfter.transform.position.x, chaseAfter.transform.position.y);

@@ -7,6 +7,7 @@ public class TracerVisuals : MonoBehaviour
     public Ray2D ray;
     public RaycastHit2D hit;
 
+    public float gunOffset = 0.25f;
     public float localTime = 0;
 
     // Start is called before the first frame update
@@ -22,14 +23,17 @@ public class TracerVisuals : MonoBehaviour
         if (hit.collider is object)
         {
             // draw a distance unit long rectangle, centered at the midpoint.
-            tracer.localScale = new Vector3(hit.distance, 0.02f, 1);
+            tracer.localScale = new Vector3(hit.distance - gunOffset, 0.02f, 1);
+
             tracer.position = (ray.origin + hit.point) / 2f;
+            Vector3 offset = ray.direction.normalized * gunOffset / 2f;
+            tracer.position += offset;
         }
         else
         {
             // draw a 100 unit long rectangle, centered 50 units away.
             tracer.localScale = new Vector3(100, 0.02f, 1);
-            tracer.position = (ray.origin + ray.origin + ray.direction.normalized * 100) / 2f;
+            tracer.position = (ray.origin + ray.origin + ray.direction.normalized * (100 + gunOffset)) / 2f;
         }
     }
 

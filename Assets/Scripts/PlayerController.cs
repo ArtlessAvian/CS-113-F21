@@ -20,10 +20,16 @@ public class PlayerController : MonoBehaviour
     public float stamina = 1;
     public float walkSpeed = 1; // units per second
     public float runSpeed = 1.2f; // units per second
+    
+    public float zombieNearbySpeedScale = 0.5f;
+    public float zombieRange = 0.3f;
+
     public float runStaminaDrain = 1f; // per second
     public float runStaminaRecover = 0.05f; // per second
 
     public int health = 3;
+    public float healthTimerMax = 1;
+    public float healthTimer = 1; // seconds to take hit;
 
     // visuals
     public GameObject tracerPrefab;
@@ -60,6 +66,22 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (ZombieNearby())
+        {
+            targetVel *= zombieNearbySpeedScale;
+            healthTimer -= Time.fixedDeltaTime;
+            if (healthTimer <= 0)
+            {
+                healthTimer += healthTimerMax;
+                health--;
+                Debug.Log("OOF");
+            }
+        }
+        else
+        {
+            healthTimer = healthTimerMax;
+        }
+
         rb.velocity = Vector2.MoveTowards(rb.velocity, targetVel, 0.25f);
 
         if (queueShoot)
@@ -81,6 +103,18 @@ public class PlayerController : MonoBehaviour
         {
             shotCooldown -= Time.fixedDeltaTime;
         }
+    }
+
+    private bool ZombieNearby()
+    {
+        foreach (ZombieController zombie in FindObjectsOfType<ZombieController>(false))
+        {
+            if ((zombie.transform.position - transform.position).magnitude < zombieRange)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void Shoot()
@@ -129,8 +163,9 @@ public class PlayerController : MonoBehaviour
         float angle = Vector2.Angle(cursorRelative, Vector2.right) * (cursorRelative.y < 0 ? -1 : 1);
         // Rotate the player's visuals to face the cursor.
         // TODO: Tends to wobble while moving.
-        Transform sprite = transform.Find("Sprite");
+        Transform sprite = transform.Find("GunOffset");
         sprite.eulerAngles = new Vector3(0, 0, angle);
+        sprite.localScale = new Vector3(1, cursorRelative.x < 0 ? -1 : 1, 1);
 
         transform.Find("CooldownBar").gameObject.SetActive(shotCooldown > 0); // Only show if reloading.
         transform.Find("CooldownBar/Progress").localScale = new Vector3(1 - shotCooldown / shotPeriod, 1, 1);
