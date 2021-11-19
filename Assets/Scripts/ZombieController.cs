@@ -11,7 +11,7 @@ public class ZombieController : MonoBehaviour
     public float visionRadius = 1; // unity units
     public float wanderRadius = 0;
 
-    public const float moveSpeed = 0.5f; 
+    public float moveSpeed = 0.5f; 
 
     public GameObject chaseAfter;
     public Vector2 lastSeenAt;
