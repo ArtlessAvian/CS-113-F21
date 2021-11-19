@@ -14,7 +14,7 @@ public class ZombieController : MonoBehaviour
     public const float moveSpeed = 0.5f; 
 
     public GameObject chaseAfter;
-    private Vector2 lastSeenAt;
+    public Vector2 lastSeenAt;
 
     //private static 
 
@@ -57,14 +57,6 @@ public class ZombieController : MonoBehaviour
         }
 
         rb.velocity = Vector2.MoveTowards(rb.velocity, targetVel, 0.25f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        transform.Find("debug home").position = lastSeenAt;
-        transform.Find("debug home").localScale = Vector2.one * wanderRadius * 2;
-        transform.Find("debug vision").localScale = Vector2.one * visionRadius * 2;
     }
 
     bool SeesTarget()
