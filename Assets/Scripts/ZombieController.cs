@@ -36,26 +36,35 @@ public class ZombieController : MonoBehaviour
 
         Vector2 chaseDirection = GetChaseVector();
 
-        if (wanderRadius < 0.1)
+        if (SeesTarget())
         {
-            if (chaseDirection.magnitude >= 0.1)
-            {
-                targetVel = chaseDirection.normalized * moveSpeed;
-            }
-            else
-            {
-                targetVel = Vector2.zero;
-            }
+            Debug.Log("see");
+            targetVel = chaseDirection.normalized * moveSpeed;
         }
         else
         {
-            if (chaseDirection.magnitude >= wanderRadius)
+            Debug.Log("dont see");
+            if (wanderRadius < 0.1)
             {
-                targetVel = chaseDirection.normalized * moveSpeed;
+                if (chaseDirection.magnitude >= 0.1)
+                {
+                    targetVel = chaseDirection.normalized * moveSpeed;
+                }
+                else
+                {
+                    targetVel = Vector2.zero;
+                }
             }
             else
             {
-                targetVel = (rb.velocity + new Vector2(Random.value - 0.5f, Random.value - 0.5f) * 0.3f).normalized * moveSpeed;
+                if (chaseDirection.magnitude >= wanderRadius)
+                {
+                    targetVel = chaseDirection.normalized * moveSpeed;
+                }
+                else
+                {
+                    targetVel = (rb.velocity + new Vector2(Random.value - 0.5f, Random.value - 0.5f) * 0.3f).normalized * moveSpeed;
+                }
             }
         }
 
@@ -67,7 +76,7 @@ public class ZombieController : MonoBehaviour
         Vector2 direction = chaseAfter.transform.position - transform.position;
         if (direction.magnitude > visionRadius) { return false; }
 
-        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + direction.normalized * 0.16f, direction, visionRadius);
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + direction.normalized * 0.161f, direction, visionRadius);
 
         //RaycastHit2D hit = Physics2D.CircleCast((Vector2)transform.position + direction.normalized * (0.16f + 0.1f), 0.05f, direction, visionRadius);
 
