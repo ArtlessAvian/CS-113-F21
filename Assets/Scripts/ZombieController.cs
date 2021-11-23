@@ -32,27 +32,30 @@ public class ZombieController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 targetVel;
+        Vector2 targetVel = Vector2.zero;
 
         Vector2 chaseDirection = GetChaseVector();
-        targetVel = chaseDirection.normalized * moveSpeed;
 
-        // if close enough, stop. (otherwise it oscillates over the point.)
-        if (chaseDirection.sqrMagnitude <= wanderRadius * wanderRadius)
+        if (wanderRadius < 0.1)
         {
-            if (wanderRadius < 0.1)
+            if (chaseDirection.magnitude >= 0.1)
+            {
+                targetVel = chaseDirection.normalized * moveSpeed;
+            }
+            else
             {
                 targetVel = Vector2.zero;
             }
-            else // wander radius is large.
+        }
+        else
+        {
+            if (chaseDirection.magnitude >= wanderRadius)
             {
-                if (!SeesTarget())
-                {
-                    // sample disk
-                    
-
-                    targetVel = (rb.velocity + new Vector2(Random.value - 0.5f, Random.value - 0.5f) * 0.3f).normalized * moveSpeed;
-                }
+                targetVel = chaseDirection.normalized * moveSpeed;
+            }
+            else
+            {
+                targetVel = (rb.velocity + new Vector2(Random.value - 0.5f, Random.value - 0.5f) * 0.3f).normalized * moveSpeed;
             }
         }
 
@@ -63,8 +66,10 @@ public class ZombieController : MonoBehaviour
     {
         Vector2 direction = chaseAfter.transform.position - transform.position;
         if (direction.magnitude > visionRadius) { return false; }
-        
-        RaycastHit2D hit = Physics2D.CircleCast((Vector2)transform.position + direction.normalized * 0.15f, 0.05f, direction, visionRadius);
+
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + direction.normalized * 0.16f, direction, visionRadius);
+
+        //RaycastHit2D hit = Physics2D.CircleCast((Vector2)transform.position + direction.normalized * (0.16f + 0.1f), 0.05f, direction, visionRadius);
 
         return (hit.collider is object) && (hit.collider.gameObject == chaseAfter);
     }

@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
     private void Shoot()
     {
         shotCooldown = shotPeriod;
-        Vector2 origin = (Vector2)transform.position + GetCursorOffset().normalized * 0.1f; // woo magic numbers
+        Vector2 origin = (Vector2)transform.position + GetCursorOffset().normalized * 0.21f; // woo magic numbers
         Ray2D ray = new Ray2D(origin, GetCursorOffset());
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
@@ -167,8 +167,8 @@ public class PlayerController : MonoBehaviour
         sprite.eulerAngles = new Vector3(0, 0, angle);
         sprite.localScale = new Vector3(1, cursorRelative.x < 0 ? -1 : 1, 1);
 
-        transform.Find("CooldownBar").gameObject.SetActive(shotCooldown > 0); // Only show if reloading.
-        transform.Find("CooldownBar/Progress").localScale = new Vector3(1 - shotCooldown / shotPeriod, 1, 1);
+        transform.Find("GunOffset/CooldownBar").gameObject.SetActive(shotCooldown > 0); // Only show if reloading.
+        transform.Find("GunOffset/CooldownBar/Progress").localScale = new Vector3(1 - shotCooldown / shotPeriod, 1, 1);
     }
 
     Vector2 GetCursorOffset()
