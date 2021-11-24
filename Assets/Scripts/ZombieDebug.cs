@@ -21,7 +21,7 @@ public class ZombieDebug : MonoBehaviour
         if (home is null) { home = transform.Find("debug home");  }
         if (vision is null) { vision = transform.Find("debug vision"); }
 
-        home.position = contr.lastSeenAt;
+        home.localPosition = Vector2.zero;
         home.localScale = Vector2.one * contr.wanderRadius * 2;
         vision.localScale = Vector2.one * contr.visionRadius * 2;
     }
