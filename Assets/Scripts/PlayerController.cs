@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
 
     // logic
-    bool queueShove = false;
     bool queueShoot = false;
 
     public readonly float shotPeriod = 1f; // seconds
@@ -33,6 +32,9 @@ public class PlayerController : MonoBehaviour
 
     // visuals
     public GameObject tracerPrefab;
+
+    public FlashOnHit hitFlash;
+    public GameObject gameOverText;
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +77,14 @@ public class PlayerController : MonoBehaviour
                 healthTimer += healthTimerMax;
                 health--;
                 Debug.Log("OOF");
+
+                hitFlash.Flash();
+
+                if (health == 0)
+                {
+                    this.enabled = false;
+                    gameOverText.SetActive(true);
+                }
             }
         }
         else
@@ -140,19 +150,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            //if (Input.GetMouseButton(1))
-            //{
             if (shotCooldown <= 0)
             {
                 queueShoot = true;
-                queueShove = false;
             }
-            //}
-            //else
-            //{
-            //    queueShove = true;
-            //    queueShoot = false;
-            //}
         }
 
         // Visual stuff
