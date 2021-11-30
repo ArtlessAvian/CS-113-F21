@@ -81,8 +81,9 @@ public class PlayerController : MonoBehaviour
 
                 if (health == 0)
                 {
+                    hitFlash.gameObject.SetActive(false);
                     this.enabled = false;
-                    gameOverText.SetActive(true);
+                    gameOverUI.SetActive(true);
                 }
             }
         }
