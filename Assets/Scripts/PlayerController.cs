@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     public GameObject tracerPrefab;
 
     public FlashOnHit hitFlash;
+    public GameObject gameOverUI;
     public GameObject gameOverText;
 
     // Start is called before the first frame update
@@ -113,10 +114,12 @@ public class PlayerController : MonoBehaviour
         {
             shotCooldown -= Time.fixedDeltaTime;
         }
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
+
+        if (health <= 0)
+        {
+            Time.timeScale = 0f;
+            gameOverUI.SetActive(true);
+        }
     }
     private bool ZombieNearby()
     {
