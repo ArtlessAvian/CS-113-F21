@@ -8,7 +8,10 @@ public class BulletPickup : MonoBehaviour
     {
         if (collision.gameObject.name == "Player")
         {
-            collision.GetComponent<PlayerController>().ammoCount += 1;
+            if (collision.GetComponent<PlayerController>().ammoCount < 6)
+            {
+                collision.GetComponent<PlayerController>().ammoCount += 1;
+            }
             this.enabled = false;
             Destroy(this.gameObject, 0.1f);
 
