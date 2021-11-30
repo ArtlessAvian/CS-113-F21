@@ -114,7 +114,10 @@ public class PlayerController : MonoBehaviour
             shotCooldown -= Time.fixedDeltaTime;
         }
     }
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+    }
     private bool ZombieNearby()
     {
         foreach (ZombieController zombie in FindObjectsOfType<ZombieController>(false))
