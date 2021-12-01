@@ -37,6 +37,9 @@ public class PlayerController : MonoBehaviour
     public GameObject gameOverUI;
     public GameObject gameOverText;
 
+    //soubds
+    public AudioSource emptyGun;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -106,6 +109,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 print("Click!");
+                emptyGun.PlayDelayed(0f);
             }
         }
 
