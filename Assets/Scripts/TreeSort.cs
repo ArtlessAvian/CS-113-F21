@@ -21,7 +21,7 @@ public class TreeSort : MonoBehaviour
 
             foreach (SpriteRenderer renderer in FindObjectsOfType<SpriteRenderer>())
             {
-                if (renderer?.sprite?.name == "tree1")
+                if (renderer?.sprite?.name == "tree1" || renderer?.sprite?.name == "barrels")
                 {
                     Vector3 copy = renderer.transform.position;
                     copy.z = -1 + copy.y/100;
