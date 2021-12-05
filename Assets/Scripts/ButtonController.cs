@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class ButtonController : MonoBehaviour
 {
     public GameObject credits;
+    public GameObject MainMenu;
+
     public void RestartGame()
     {
         SceneManager.LoadScene("MarvinsScene2");
@@ -24,5 +26,16 @@ public class ButtonController : MonoBehaviour
         credits.SetActive(true);
         gameObject.SetActive(false);
 
+    }
+
+    public void Begin()
+    {
+        SceneManager.LoadScene("MarvinsScene2");
+    }
+
+    public void BackToMenu()
+    {
+        MainMenu.SetActive(true);
+        this.gameObject.SetActive(false);
     }
 }
