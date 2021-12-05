@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ButtonController : MonoBehaviour
 {
+    public GameObject credits;
     public void RestartGame()
     {
         SceneManager.LoadScene("MarvinsScene2");
@@ -15,5 +16,13 @@ public class ButtonController : MonoBehaviour
     {
         Debug.Log("Game Quit");
         Application.Quit();
+    }
+
+    public void Credits()
+    {
+        Time.timeScale = 0f;
+        credits.SetActive(true);
+        gameObject.SetActive(false);
+
     }
 }
